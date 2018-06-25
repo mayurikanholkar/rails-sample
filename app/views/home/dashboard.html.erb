@@ -1,0 +1,29 @@
+<p>hi welcome to Ruby community. you have successfully registered to your rails club account</p>
+<%= link_to "Sign out", destroy_member_session_path, :method => :delete %>
+<%= link_to "All Users", listing_user_path%>
+<br>
+<a class="js-social-share facebook" href="https://www.facebook.com/sharer/sharer.php?url=<%= request.base_url%>"  target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.fa {
+  padding: 20px;
+  font-size: 10px;
+  width: 10px;
+  text-align: center;
+  text-decoration: none;
+  margin: 5px 2px;
+  border-radius: 50%;
+}
+
+.fa:hover {
+    opacity: 0.7;
+}
+
+.fa-facebook {
+  background: #3B5998;
+  color: white;
+}
+
+</style>

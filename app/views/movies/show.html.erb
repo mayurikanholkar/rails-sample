@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @movie.name %>
+</p>
+
+<p>
+  <strong>Photo:</strong>
+  <%= image_tag @movie.photo.url, :size => "250x200" %>
+</p>
+<br>
+<%# @movies.each do |mov|%>
+  <%= content_for(@movie, :replies_only => true) %>
+<%# end %>
+
+
+<%= link_to 'Edit', edit_movie_path(@movie) %> |
+<%= link_to 'Back', movies_path %> |
+<%= link_to 'Buy Movie using stripe', new_charge_path %>

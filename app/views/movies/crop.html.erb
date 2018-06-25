@@ -1,0 +1,45 @@
+<script type="text/javascript">
+  $(document).ready(function(){
+  	$('#cropbox').Jcrop({
+    	onChange: update_crop,
+    	onSelect: update_crop,
+    	setSelect: [50, 50, 150, 150],
+      aspectRatio: 22.5/11.6
+  	});
+		function update_crop(coords){
+		  var ratio = <%= Paperclip::Geometry.from_file(@movie.cover_image_physical).width.to_i %> / 450 ; 
+		  $('#crop_x').val(Math.floor(coords.x * ratio));
+		  $('#crop_y').val(Math.floor(coords.y * ratio));
+		  $('#crop_w').val(Math.floor(coords.w * ratio));
+		  $('#crop_h').val(Math.floor(coords.h * ratio)); 
+		}		
+  });
+</script>
+
+<div class="container margin-top">
+  <div class="container crop-box-align">
+    <%= image_tag (@movie.photo.url),:id => "cropbox", :class=>"crop-box"%>
+  </div>
+ 
+  <div class="container cropper">
+    <%= form_for @movie, :url=>  update_cropping_image_path, :method => "post" do |form| %>
+      <% for attribute in [:crop_x, :crop_y, :crop_w, :crop_h] %>
+        <%= form.hidden_field attribute, :id => attribute %>
+      <% end %>
+      <%= form.hidden_field :theme_id, :value=> @movie.id %>
+      <div>
+        <%= form.submit "Crop", class: "btn"  %>
+        <%= form.submit "Don't Crop", class: "btn"  %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<style type="text/css">
+  .crop-box{
+    width:460px; height:100%;
+  }
+  .crop-box-align{
+    margin-left: 30%;
+  }
+</style>

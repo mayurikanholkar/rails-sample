@@ -1,0 +1,81 @@
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("#phoneVerify").click(function(){
+      	alert();
+      $.ajax({
+        type:"GET",
+        url:"/send_sms",
+        dataType:"json",
+        data: {phone: $("#first_phone_no").text()},
+        success:function(result){
+          if(typeof(result["errmsg"])==="undefined"){
+            $('#verify-pin-id').removeClass('verify-pin');
+            return false;
+          }
+          else{
+            alert(result["errmsg"]+" please enter correct phone no.");
+            return false;
+          }
+        }
+      });
+    });
+
+    $("#otp_verify").click(function(){
+      $.ajax({
+        type:"GET",
+        url:"/otp_verify",
+        dataType:"json",
+        data: {entered_otp_pin: $("#otp_pin").val(), user_id: "<%= @member.contact.id%>"},
+        success:function(result){
+          $('#verify-pin-id').addClass('verify-pin');
+          if(result["otp_verification_status"]==true){
+            alert("Your contact number verfied successfully!");
+            location.reload();
+            return false;
+          }
+          else{
+            alert("Sorry..! Your contact number is not Verified. Please Verify again!");
+            return false;
+          }
+        }
+      });
+    });
+});
+</script>
+
+
+<h1> Show page </h1>
+
+<h1>Member's Details</h1>
+
+<h4>Name: <%= @member.username%> </h4>
+<h4>Email: <%= @member.email%> </h4>
+<h4>Mobile:<%= @contact.mobile%></h4>
+<h4>Phone:<p id="first_phone_no"><%= @contact.mobile%></p> || <a href="javascript:void(0)" id="phoneVerify">Verify</a></h4> 
+
+<table><tr>
+  <div class="verify-pin" id="verify-pin-id">
+    <label>Enter your PIN</label>
+      <div>
+        <input type="text" name="" id="otp_pin" style="margin:0px; height:30px;">
+          <a href="javascript:void(0);" id="otp_verify" class="btn">OTP Verify</a>
+      </div>
+  </div>
+ </tr></table>
+
+<h4>Address: <%= @contact.address%> </h4>
+<h4>Image: <br><%= image_tag @member.image.url, :size => "250x200" %></h4>
+<h4>Picture: <br><%= video_tag @member.picture.url.to_s, :controls => true, :size => "250x200" %></h4>
+
+<%= link_to "Back", root_path %>
+
+
+
+
+<style type="text/css">
+    .verify-pin {
+       display: none;
+    }
+</style>

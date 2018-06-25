@@ -1,0 +1,58 @@
+<h2>Sign up</h2>
+
+<%= form_for(@member, url: member_registration_path,:method => 'post', html:{multipart:true}) do |f| %>
+<%= devise_error_messages! %>
+
+<table>
+<tr>
+<td>Username : </td>
+<td><%=f.text_field :username %></td>
+</tr>
+
+<tr>
+<td>Email : </td>
+<td><%=f.email_field :email  %></td>
+</tr>
+ 
+<tr>
+<td>Password : </td>
+<td><%=f.password_field :password %></td>
+</tr>
+
+<tr>
+<td>Retype password : </td>
+<td><%=f.password_field :password_confirmation  %></td>
+</tr>
+
+<tr>
+<td>Mobile : </td>
+<td><%= text_field(:contact, :mobile) %></td>
+</tr>
+
+<tr>
+<td>Address : </td>
+<td><%= text_field(:contact, :address,:rows => 10, :cols => 25)	 %></td>
+</tr>
+
+<tr>
+<td>Image : </td>
+<td><%=f.file_field :image %><% if params[:format].present? %>
+  <%= image_tag @member.image.url, :size => "150x100" %>
+<%end%></td>
+</tr>
+
+
+<tr>
+<td>Picture : </td>
+<td><%=f.file_field :picture %><% if params[:format].present? %>
+  <%= image_tag @member.picture.url, :size => "150x100" %>
+<%end%></td>
+</tr>
+
+<tr>
+<td><%= submit_tag nil, :class => "form_submit"%></td>
+</tr>
+</table>
+<%end%>
+<br />
+<%= render :partial => "devise/shared/links" %>
